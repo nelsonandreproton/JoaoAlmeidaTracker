@@ -23,13 +23,7 @@ def save_state(state):
 
 def format_message(result):
     """Formats the notification message based on the race result."""
-    if result['type'] == 'stage_race':
-        position_label = "GC Position"
-        position_value = f"{result['position']}º"
-    else:  # one_day_race
-        position_label = "Final Position"
-        position_value = f"{result['position']}º" if result['position'].isnumeric() else result['position']
-
+    
     time_gap = result['time_gap']
     if time_gap and not time_gap.startswith('+') and result['position'] != '1':
         time_gap = f"+{time_gap}"
@@ -38,8 +32,21 @@ def format_message(result):
         f"🏁 Race finished!\n\n"
         f"🚴 João Almeida\n"
         f"📍 Race: {result['race_name']}\n"
-        f"📊 {position_label}: {position_value}\n"
-        f"⏱ {time_gap}\n"
+    )
+
+    if result['type'] == 'stage_race':
+        if result.get('stage_position'):
+            message += f"📊 Stage Position: {result['stage_position']}º\n"
+        if result.get('gc_position'):
+            message += f"🌍 GC Position: {result['gc_position']}º"
+    else:
+        pos = result['position']
+        if pos.isnumeric():
+             pos = f"{pos}º"
+        message += f"📊 Final Position: {pos}"
+
+    message += (
+        f"\n⏱ {time_gap}\n"
         f"👕 {result['team']}"
     )
     return message
@@ -54,6 +61,7 @@ def main():
         race_id = race['race_id']
         
         if state.get(race_id, {}).get('notified', False):
+            print(f"DEBUG: Skipping {race_id} (Already notified).")
             continue
 
         print(f"Checking race: {race['race_name_initial']} ({race_id})")

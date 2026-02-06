@@ -1,4 +1,5 @@
 import requests
+import cloudscraper
 from bs4 import BeautifulSoup
 import datetime
 
@@ -7,11 +8,11 @@ BASE_URL = "https://www.procyclingstats.com/"
 def get_page_content(url):
     """Fetches and parses a URL, returning a BeautifulSoup object."""
     try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-        response = requests.get(url, headers=headers)
+        scraper = cloudscraper.create_scraper()
+        response = scraper.get(url)
         response.raise_for_status()
         return BeautifulSoup(response.text, 'lxml')
-    except requests.RequestException as e:
+    except Exception as e:
         print(f"Error fetching {url}: {e}")
         return None
 

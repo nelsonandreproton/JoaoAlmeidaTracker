@@ -5,6 +5,13 @@ on:
     - cron: "0 */2 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: bot-run
+  cancel-in-progress: false
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest

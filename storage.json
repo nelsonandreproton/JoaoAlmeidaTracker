@@ -2,5 +2,9 @@
   "vuelta-a-la-comunidad-valenciana/2026/stage-3": {
     "notified": true,
     "type": "stage_race"
+  },
+  "volta-ao-algarve/2026/stage-1": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

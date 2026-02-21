@@ -14,5 +14,9 @@
   "volta-ao-algarve/2026/stage-3": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "volta-ao-algarve/2026/stage-4": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

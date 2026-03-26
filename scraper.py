@@ -133,6 +133,7 @@ def get_race_result(race_url):
         "stage_pos": None,
         "gc_pos": None,
         "time_gap": "",
+        "gc_time_gap": "",
         "team": ""
     }
 
@@ -177,10 +178,11 @@ def get_race_result(race_url):
         if is_gc_table:
             print(f"DEBUG: Found GC position: {pos}")
             data['gc_pos'] = pos
+            data['gc_time_gap'] = get_col_text('td.time')
             data['type'] = "stage_race"
             # If team is missing from stage result, try getting it here
             if not data['team']:
-                data['team'] = get_col_text('td.team')
+                data['team'] = get_col_text('td.team a') or get_col_text('td.team')
         else:
             # Assume Stage/One-Day result
             # Only set stage_pos if it's not set yet (prevents overwriting by subsequent tables)
@@ -188,12 +190,13 @@ def get_race_result(race_url):
                 print(f"DEBUG: Found Stage/Result position: {pos}")
                 data['stage_pos'] = pos
                 data['time_gap'] = get_col_text('td.time')
-                data['team'] = get_col_text('td.team')
+                data['team'] = get_col_text('td.team a') or get_col_text('td.team')
             elif is_stage_race_url and not data['gc_pos']:
                 # If we already have stage_pos, and this is a stage race, and we don't have GC yet...
                 # This second table is likely GC even if we missed the header/class.
                 print(f"DEBUG: Inferring GC position from second table: {pos}")
                 data['gc_pos'] = pos
+                data['gc_time_gap'] = get_col_text('td.time')
                 data['type'] = "stage_race"
 
     # Construct final result object
@@ -211,6 +214,7 @@ def get_race_result(race_url):
         "type": data['type'],
         "race_name": race_name,
         "position": primary_pos,
+        "gc_time_gap": data['gc_time_gap'],
         "stage_position": data['stage_pos'],
         "gc_position": data['gc_pos'],
         "time_gap": data['time_gap'],

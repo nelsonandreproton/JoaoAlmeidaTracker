@@ -24,9 +24,10 @@ def save_state(state):
 def format_message(result):
     """Formats the notification message based on the race result."""
     
-    time_gap = result['time_gap']
-    if time_gap and not time_gap.startswith('+') and result['position'] != '1':
-        time_gap = f"+{time_gap}"
+    def fmt_gap(gap):
+        if gap and not gap.startswith('+') and gap != ',,':
+            return f"+{gap}"
+        return gap or ""
 
     message = (
         f"🏁 Race finished!\n\n"
@@ -39,16 +40,17 @@ def format_message(result):
             message += f"📊 Stage Position: {result['stage_position']}º\n"
         if result.get('gc_position'):
             message += f"🌍 GC Position: {result['gc_position']}º"
+        message += f"\n⏱ {fmt_gap(result['time_gap'])}"
+        gc_gap = fmt_gap(result.get('gc_time_gap', ''))
+        if gc_gap:
+            message += f"\n👕 {gc_gap}"
     else:
         pos = result['position']
         if pos.isnumeric():
              pos = f"{pos}º"
         message += f"📊 Final Position: {pos}"
+        message += f"\n⏱ {fmt_gap(result['time_gap'])}"
 
-    message += (
-        f"\n⏱ {time_gap}\n"
-        f"👕 {result['team']}"
-    )
     return message
 
 def main():

@@ -42,5 +42,9 @@
   "volta-a-catalunya/2026/stage-5": {
     "notified": true,
     "type": "stage_race"
+  },
+  "volta-a-catalunya/2026/stage-6": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

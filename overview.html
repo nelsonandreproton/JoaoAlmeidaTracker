@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JoaoAlmeidaTracker — Overview</title>
+  <style>
+    :root{--bg:#0f1117;--surface:#1a1d27;--surface2:#222636;--border:#2e3347;--accent:#6c8aff;--accent2:#a78bfa;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--orange:#fb923c;--cyan:#22d3ee;--text:#e2e8f0;--muted:#8892a4;--radius:10px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;}
+    a{color:var(--accent);text-decoration:none;}
+    .page{max-width:1100px;margin:0 auto;padding:40px 24px 80px;}
+    header{text-align:center;padding:48px 0 36px;border-bottom:1px solid var(--border);margin-bottom:48px;}
+    header h1{font-size:2.4rem;font-weight:700;}header h1 span{color:var(--accent);}
+    header p{color:var(--muted);margin-top:10px;font-size:1.05rem;}
+    .badge{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 14px;font-size:0.8rem;color:var(--muted);margin:8px 4px 0;}
+    .badge.green{border-color:var(--green);color:var(--green);}.badge.blue{border-color:var(--accent);color:var(--accent);}.badge.orange{border-color:var(--orange);color:var(--orange);}
+    h2{font-size:1.35rem;font-weight:600;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+    h2::after{content:'';flex:1;height:1px;background:var(--border);}
+    h3{font-size:1rem;font-weight:600;margin-bottom:8px;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;}
+    .card+.card{margin-top:16px;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    @media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
+    .flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-bottom:8px;}
+    .flow-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:0.83rem;text-align:center;min-width:100px;}
+    .flow-box small{display:block;color:var(--muted);font-size:0.72rem;margin-top:2px;}
+    .flow-box.accent{border-color:var(--accent);color:var(--accent);}.flow-box.green{border-color:var(--green);color:var(--green);}.flow-box.orange{border-color:var(--orange);color:var(--orange);}
+    .flow-arrow{color:var(--muted);font-size:1.2rem;padding:0 8px;}
+    .param-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:0.88rem;}
+    .param-grid .label{color:var(--muted);white-space:nowrap;}.param-grid .val{color:var(--text);font-family:monospace;}
+    .tag{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:2px 9px;font-size:0.78rem;color:var(--muted);margin:3px 2px;}
+    section{margin-bottom:52px;}
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1><span>João Almeida</span> Tracker</h1>
+    <p>Automated cycling results notifier — ProCyclingStats scraper + Telegram bot on GitHub Actions</p>
+    <div>
+      <span class="badge blue">Python 3.11</span>
+      <span class="badge green">BeautifulSoup + cloudscraper</span>
+      <span class="badge orange">GitHub Actions</span>
+      <span class="badge">Telegram Bot API</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. What this project does</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Purpose</h3>
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:12px;">
+          Tracks professional cyclist João Almeida's race results from ProCyclingStats.
+          Every 2 hours, checks if he finished a stage race GC or one-day race today and
+          sends a Telegram notification. State persisted as a git-committed JSON file
+          to prevent duplicate notifications across GitHub Actions runs.
+        </p>
+        <div>
+          <span class="tag">ProCyclingStats scraper</span><span class="tag">Cloudflare bypass</span>
+          <span class="tag">SHA-256 dedup</span><span class="tag">Git state</span>
+          <span class="tag">GC + one-day races</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Stack</h3>
+        <div class="param-grid">
+          <span class="label">HTTP</span><span class="val">cloudscraper (Cloudflare bypass)</span>
+          <span class="label">Parsing</span><span class="val">BeautifulSoup (lxml parser)</span>
+          <span class="label">State</span><span class="val">storage.json (committed to repo)</span>
+          <span class="label">Notify</span><span class="val">Telegram Bot API (HTTP POST)</span>
+          <span class="label">CI/CD</span><span class="val">GitHub Actions (every 2 h + manual)</span>
+          <span class="label">Deploy</span><span class="val">Serverless — no VPS needed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. Pipeline</h2>
+    <div class="card">
+      <div style="overflow-x:auto;"><div style="min-width:580px;">
+        <p style="color:var(--muted);font-size:0.82rem;margin-bottom:8px;">GitHub Actions — every 2 hours</p>
+        <div class="flow">
+          <div class="flow-box accent"><strong>scraper.py</strong><small>ProCyclingStats</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><strong>Filter today's races</strong><small>stage + one-day</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange"><strong>Check storage.json</strong><small>already notified?</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box green"><strong>Telegram alert</strong><small>position + race name</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><strong>git commit</strong><small>persist state + heartbeat</small></div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Reliability</h2>
+    <div class="card">
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:12px;">
+        GitHub auto-disables a <code>schedule</code>-triggered workflow after 60 days with
+        no commit to the repo — a commit-on-change-only bot can go silently idle for a full
+        season with no error. Two safeguards close this gap:
+      </p>
+      <div style="overflow-x:auto;"><div style="min-width:520px;">
+        <div class="flow">
+          <div class="flow-box accent"><strong>scheduler.yml</strong><small>every run</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box"><strong>last_run.txt</strong><small>UTC timestamp, committed unconditionally</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box green"><strong>healthcheck.yml</strong><small>daily 08:30 UTC</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange"><strong>Telegram alert</strong><small>if stale &gt;6h</small></div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>4. Configuration</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>GitHub Actions schedules</h3>
+        <div class="param-grid">
+          <span class="label">scheduler.yml</span><span class="val">0 */2 * * * (every 2 hours)</span>
+          <span class="label">healthcheck.yml</span><span class="val">30 8 * * * (daily)</span>
+          <span class="label">Manual</span><span class="val">workflow_dispatch (any time, both workflows)</span>
+          <span class="label">Runner</span><span class="val">ubuntu-latest</span>
+          <span class="label">Secrets</span><span class="val">TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Key files</h3>
+        <div class="param-grid">
+          <span class="label">bot.py</span><span class="val">Main orchestrator — state, format, dispatch</span>
+          <span class="label">scraper.py</span><span class="val">ProCyclingStats HTML parser</span>
+          <span class="label">notifier.py</span><span class="val">Telegram message sender</span>
+          <span class="label">healthcheck.py</span><span class="val">Alerts if last_run.txt is stale &gt;6h</span>
+          <span class="label">storage.json</span><span class="val">Seen races (committed to git)</span>
+          <span class="label">last_run.txt</span><span class="val">Heartbeat timestamp (committed every run)</span>
+          <span class="label">workflows/scheduler.yml</span><span class="val">Main bot CRON definition</span>
+          <span class="label">workflows/healthcheck.yml</span><span class="val">Daily silent-failure check</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--border);padding-top:20px;text-align:center;color:var(--muted);font-size:0.82rem;">
+    JoaoAlmeidaTracker &nbsp;·&nbsp; Python + cloudscraper + GitHub Actions &nbsp;·&nbsp; <a href="../index.html">← All Projects</a>
+  </footer>
+</div>
+</body>
+</html>

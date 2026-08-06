@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JoaoAlmeidaTracker — Architecture</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 2rem; background: #0f172a; color: #e2e8f0; }
+  h1 { color: #38bdf8; border-bottom: 2px solid #1e3a5f; padding-bottom: .5rem; }
+  h2 { color: #7dd3fc; margin-top: 2rem; }
+  .badge { display: inline-block; background: #1e3a5f; color: #7dd3fc; border-radius: 4px; padding: 2px 8px; font-size: .8rem; margin: 2px; }
+  .card { background: #1e293b; border-radius: 8px; padding: 1.2rem; margin: 1rem 0; border: 1px solid #334155; }
+  svg { width: 100%; max-width: 800px; display: block; margin: 1rem auto; }
+  a { color: #38bdf8; }
+  .back { margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+<div class="back"><a href="../index.html">← Back to Projects</a></div>
+<h1>JoaoAlmeidaTracker</h1>
+<div class="card">
+  <strong>Purpose:</strong> 100% free GitHub Actions bot that tracks Portuguese cyclist João Almeida's race results from ProCyclingStats. Runs every 2 hours, prevents duplicate alerts with state files committed to the repo.
+</div>
+<div>
+  <span class="badge">Python</span><span class="badge">GitHub Actions</span><span class="badge">requests + BeautifulSoup</span><span class="badge">Telegram Bot API</span><span class="badge">Zero infrastructure cost</span>
+</div>
+
+<h2>Workflow</h2>
+<svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="280" fill="#0f172a"/>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+  <!-- GitHub Actions Cron -->
+  <rect x="20" y="100" width="140" height="70" rx="8" fill="#1e3a5f" stroke="#64748b" stroke-width="1.5"/>
+  <text x="90" y="130" text-anchor="middle" fill="#7dd3fc" font-size="13">GitHub Actions</text>
+  <text x="90" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">Cron: every 2h</text>
+  <line x1="160" y1="135" x2="210" y2="135" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Scraper -->
+  <rect x="210" y="80" width="160" height="110" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="290" y="110" text-anchor="middle" fill="#7dd3fc" font-size="13">Result Scraper</text>
+  <text x="290" y="130" text-anchor="middle" fill="#94a3b8" font-size="11">ProCyclingStats.com</text>
+  <text x="290" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">BeautifulSoup parse</text>
+  <text x="290" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">Race results + GC pos</text>
+  <line x1="370" y1="135" x2="420" y2="135" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- State File -->
+  <rect x="420" y="80" width="160" height="110" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="500" y="110" text-anchor="middle" fill="#7dd3fc" font-size="13">State Manager</text>
+  <text x="500" y="130" text-anchor="middle" fill="#94a3b8" font-size="11">Read state.json</text>
+  <text x="500" y="148" text-anchor="middle" fill="#94a3b8" font-size="11">Compare new results</text>
+  <text x="500" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">Commit updated state</text>
+  <line x1="580" y1="135" x2="630" y2="135" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Telegram -->
+  <rect x="630" y="105" width="130" height="60" rx="8" fill="#1e3a5f" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="695" y="132" text-anchor="middle" fill="#7dd3fc" font-size="13">Telegram</text>
+  <text x="695" y="150" text-anchor="middle" fill="#94a3b8" font-size="11">New result alert</text>
+  <!-- GitHub repo -->
+  <rect x="420" y="220" width="160" height="45" rx="8" fill="#1e3a5f" stroke="#64748b" stroke-width="1"/>
+  <text x="500" y="247" text-anchor="middle" fill="#94a3b8" font-size="11">GitHub Repo (state.json)</text>
+  <line x1="500" y1="190" x2="500" y2="220" stroke="#64748b" stroke-width="1" stroke-dasharray="4"/>
+  <text x="400" y="275" text-anchor="middle" fill="#475569" font-size="11">JoaoAlmeidaTracker — 100% Free Cyclist Result Monitor via GitHub Actions</text>
+</svg>
+
+<h2>Key Workflows</h2>
+<div class="card">
+  <strong>Automated Tracking (every 2h)</strong><br>
+  GitHub Actions cron trigger → Python script fetches ProCyclingStats profile → parses latest race results → compares with state.json stored in repo → if new result found: sends Telegram alert and commits updated state.json.
+</div>
+<div class="card">
+  <strong>Zero-Cost Architecture</strong><br>
+  No server, no database, no Docker — runs entirely on GitHub Actions free tier. State persistence uses committed JSON files instead of a database.
+</div>
+</body>
+</html>

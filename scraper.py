@@ -100,8 +100,8 @@ def get_rider_races(rider_url):
         
     return races
 
-def get_race_result(race_url):
-    """Scrapes a race page to find João Almeida's result."""
+def get_race_result(race_url, rider_slug):
+    """Scrapes a race page to find the given rider's result."""
     print(f"DEBUG: Checking race URL: {race_url}")
     soup = get_page_content(race_url)
     if not soup:
@@ -117,13 +117,13 @@ def get_race_result(race_url):
         race_name = h1.get_text(strip=True).replace('»', '›').split('›')[-1].strip()
     else:
         race_name = "Unknown Race"
-    
+
     # Find all occurrences of the rider to capture both Stage and GC results
     # Remove leading slash to match both absolute and relative URLs (e.g. "rider/joao-almeida")
-    rider_links = soup.select('a[href*="rider/joao-almeida"]')
-    
+    rider_links = soup.select(f'a[href*="rider/{rider_slug}"]')
+
     if not rider_links:
-        print("DEBUG: João Almeida not found in results.")
+        print(f"DEBUG: Rider '{rider_slug}' not found in results.")
         return None
 
     # Initialize result container

@@ -3,7 +3,12 @@ import os
 from scraper import get_rider_races, get_race_result
 from notifier import send_telegram_notification
 
-RIDER_URL = "https://www.procyclingstats.com/rider/joao-almeida"
+RIDERS = [
+    {"name": "João Almeida", "slug": "joao-almeida"},
+    {"name": "Afonso Eulálio", "slug": "afonso-eulalio"},
+    {"name": "António Morgado", "slug": "antonio-morgado"},
+]
+
 STORAGE_FILE = "storage.json"
 
 def load_state():
@@ -21,9 +26,9 @@ def save_state(state):
     with open(STORAGE_FILE, 'w') as f:
         json.dump(state, f, indent=2)
 
-def format_message(result):
+def format_message(rider_name, result):
     """Formats the notification message based on the race result."""
-    
+
     def fmt_gap(gap):
         if gap and not gap.startswith('+') and gap != ',,':
             return f"+{gap}"
@@ -31,7 +36,7 @@ def format_message(result):
 
     message = (
         f"🏁 Race finished!\n\n"
-        f"🚴 João Almeida\n"
+        f"🚴 {rider_name}\n"
         f"📍 Race: {result['race_name']}\n"
     )
 
@@ -53,31 +58,45 @@ def format_message(result):
 
     return message
 
-def main():
-    print("Starting João Almeida results check...")
-    state = load_state()
-    races_to_check = get_rider_races(RIDER_URL)
+def check_rider(rider, state):
+    """Checks one rider's races, notifies on new finishes. Returns True if state changed."""
+    slug = rider['slug']
+    rider_url = f"https://www.procyclingstats.com/rider/{slug}"
+
+    print(f"Checking races for {rider['name']}...")
+    races_to_check = get_rider_races(rider_url)
 
     state_changed = False
     for race in races_to_check:
-        race_id = race['race_id']
-        
-        if state.get(race_id, {}).get('notified', False):
-            print(f"DEBUG: Skipping {race_id} (Already notified).")
+        storage_key = f"{slug}:{race['race_id']}"
+
+        if state.get(storage_key, {}).get('notified', False):
+            print(f"DEBUG: Skipping {storage_key} (Already notified).")
             continue
 
-        print(f"Checking race: {race['race_name_initial']} ({race_id})")
-        result = get_race_result(race['race_url'])
+        print(f"Checking race: {race['race_name_initial']} ({storage_key})")
+        result = get_race_result(race['race_url'], slug)
 
         if result:
-            print(f"Finished result found for {race_id}: Position {result['position']}")
-            message = format_message(result)
+            print(f"Finished result found for {storage_key}: Position {result['position']}")
+            message = format_message(rider['name'], result)
             send_telegram_notification(message)
 
-            state[race_id] = {"notified": True, "type": result['type']}
+            state[storage_key] = {"notified": True, "type": result['type']}
             state_changed = True
         else:
-            print(f"Race not finished or result not available for {race_id}")
+            print(f"Race not finished or result not available for {storage_key}")
+
+    return state_changed
+
+def main():
+    print("Starting rider results check...")
+    state = load_state()
+
+    state_changed = False
+    for rider in RIDERS:
+        if check_rider(rider, state):
+            state_changed = True
 
     if state_changed:
         print("State changed, saving to storage.json...")

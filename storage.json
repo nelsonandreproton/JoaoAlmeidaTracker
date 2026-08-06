@@ -50,5 +50,17 @@
   "volta-a-catalunya/2026/stage-7": {
     "notified": true,
     "type": "stage_race"
+  },
+  "tour-de-pologne/2026/stage-1": {
+    "notified": true,
+    "type": "stage_race"
+  },
+  "tour-de-pologne/2026/stage-2": {
+    "notified": true,
+    "type": "stage_race"
+  },
+  "tour-de-pologne/2026/stage-3": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

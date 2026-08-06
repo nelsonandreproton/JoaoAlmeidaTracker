@@ -62,5 +62,13 @@
   "joao-almeida:tour-de-pologne/2026/stage-3": {
     "notified": true,
     "type": "stage_race"
+  },
+  "joao-almeida:tour-de-pologne/2026/stage-4": {
+    "notified": true,
+    "type": "stage_race"
+  },
+  "afonso-eulalio:vuelta-a-burgos/2026/stage-3": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

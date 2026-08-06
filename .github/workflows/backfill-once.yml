@@ -1,19 +1,13 @@
-name: João Almeida Results Bot
+name: Backfill Missed Races (one-off)
 
 on:
-  schedule:
-    - cron: "0 */2 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
-concurrency:
-  group: bot-run
-  cancel-in-progress: false
-
 jobs:
-  run-bot:
+  backfill:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +19,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python bot.py
+      - run: python backfill.py
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -34,7 +28,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          date -u +"%Y-%m-%dT%H:%M:%SZ" > last_run.txt
-          git add storage.json last_run.txt
-          git commit -m "Update race state" || echo "No changes to commit"
+          git add storage.json
+          git commit -m "Backfill Tour de Pologne stages 1-3" || echo "No changes to commit"
           git push

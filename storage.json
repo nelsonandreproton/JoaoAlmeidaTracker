@@ -78,5 +78,9 @@
   "afonso-eulalio:vuelta-a-burgos/2026/stage-4": {
     "notified": true,
     "type": "stage_race"
+  },
+  "afonso-eulalio:vuelta-a-burgos/2026/stage-5": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

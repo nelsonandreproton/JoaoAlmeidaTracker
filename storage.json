@@ -82,5 +82,9 @@
   "afonso-eulalio:vuelta-a-burgos/2026/stage-5": {
     "notified": true,
     "type": "stage_race"
+  },
+  "antonio-morgado:cyclassics-hamburg/2026/result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

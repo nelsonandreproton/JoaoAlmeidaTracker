@@ -90,5 +90,9 @@
   "antonio-morgado:deutschland-tour/2026/prologue": {
     "notified": true,
     "type": "stage_race"
+  },
+  "antonio-morgado:deutschland-tour/2026/stage-1": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

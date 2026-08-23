@@ -106,5 +106,9 @@
   "joao-almeida:vuelta-a-espana/2026/stage-1": {
     "notified": true,
     "type": "stage_race"
+  },
+  "antonio-morgado:deutschland-tour/2026/stage-4": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

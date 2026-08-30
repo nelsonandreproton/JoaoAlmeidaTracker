@@ -138,5 +138,13 @@
   "joao-almeida:vuelta-a-espana/2026/stage-8": {
     "notified": true,
     "type": "stage_race"
+  },
+  "joao-almeida:vuelta-a-espana/2026/stage-9": {
+    "notified": true,
+    "type": "stage_race"
+  },
+  "antonio-morgado:bretagne-classic/2026/result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

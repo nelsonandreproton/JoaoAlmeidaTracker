@@ -162,5 +162,9 @@
   "joao-almeida:vuelta-a-espana/2026/stage-13": {
     "notified": true,
     "type": "stage_race"
+  },
+  "joao-almeida:vuelta-a-espana/2026/stage-14": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

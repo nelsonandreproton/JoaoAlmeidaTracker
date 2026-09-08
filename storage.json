@@ -174,5 +174,9 @@
   "antonio-morgado:gp-industria-artigianato/2026/result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "joao-almeida:vuelta-a-espana/2026/stage-16": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

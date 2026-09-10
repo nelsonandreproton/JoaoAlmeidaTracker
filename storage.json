@@ -186,5 +186,13 @@
   "antonio-morgado:giro-di-toscana/2026/result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "joao-almeida:vuelta-a-espana/2026/stage-18": {
+    "notified": true,
+    "type": "stage_race"
+  },
+  "antonio-morgado:gp-citta-di-peccioli/2026/result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

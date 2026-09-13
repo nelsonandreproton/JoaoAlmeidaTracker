@@ -218,5 +218,9 @@
   "antonio-morgado:trofeo-matteotti/2026/result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "afonso-eulalio:gp-montreal/2026/result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

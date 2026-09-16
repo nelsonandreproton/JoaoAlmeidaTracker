@@ -222,5 +222,9 @@
   "afonso-eulalio:gp-montreal/2026/result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "antonio-morgado:gp-de-wallonie/2026/result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

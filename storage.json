@@ -242,5 +242,9 @@
   "antonio-morgado:world-championship/2026/result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "afonso-eulalio:giro-dell-emilia/2026/result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

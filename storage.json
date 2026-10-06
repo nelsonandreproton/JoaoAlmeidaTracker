@@ -246,5 +246,9 @@
   "afonso-eulalio:giro-dell-emilia/2026/result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "afonso-eulalio:tre-valli-varesine-2026-result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

@@ -250,5 +250,9 @@
   "afonso-eulalio:tre-valli-varesine-2026-result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "afonso-eulalio:gran-piemonte-2026-result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

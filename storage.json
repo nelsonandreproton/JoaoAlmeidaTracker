@@ -254,5 +254,9 @@
   "afonso-eulalio:gran-piemonte-2026-result": {
     "notified": true,
     "type": "one_day_race"
+  },
+  "afonso-eulalio:tour-of-guangxi-2026-stage-1": {
+    "notified": true,
+    "type": "stage_race"
   }
 }

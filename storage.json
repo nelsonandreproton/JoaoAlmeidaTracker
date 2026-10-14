@@ -262,5 +262,9 @@
   "afonso-eulalio:tour-of-guangxi-2026-stage-2": {
     "notified": true,
     "type": "stage_race"
+  },
+  "antonio-morgado:giro-del-veneto-2026-result": {
+    "notified": true,
+    "type": "one_day_race"
   }
 }

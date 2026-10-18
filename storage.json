@@ -278,5 +278,9 @@
   "afonso-eulalio:tour-of-guangxi-2026-stage-5": {
     "notified": true,
     "type": "stage_race"
+  },
+  "afonso-eulalio:tour-of-guangxi-2026-stage-6": {
+    "notified": true,
+    "type": "stage_race"
   }
 }
